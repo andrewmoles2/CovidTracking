@@ -33,11 +33,11 @@ ui <- fluidPage(
                   selected = "United Kingdom")),
     mainPanel(
       #local cases figure
-      h4("Visualisation of local COVID-19 cases data with rolling mean",
+      h4("Local visualisation COVID-19 cases data with rolling mean",
          align = "center",
          plotOutput("covidPlot")),
       #world cases figure
-      h4("Visualisation of selected country COVID-19 cases and deaths",
+      h4("Country visualisation COVID-19 cases and deaths",
          align = "center",
          plotOutput("worldCovid"))
     )

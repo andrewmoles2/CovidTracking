@@ -58,3 +58,4 @@ ggplot(UkDataCovid, aes(date, new_cases)) + geom_bar(stat = 'identity', aes(fill
         axis.text.y = element_text(size = 12),
         legend.text = element_text(size = 12))
 
+
