@@ -4,9 +4,12 @@ library(data.table)
 library(tibbletime)
 
 # load data
-data_url <- 'https://c19downloads.azureedge.net/downloads/csv/coronavirus-cases_latest.csv'
+data_url <- 'https://coronavirus.data.gov.uk/downloads/msoa_data/MSOAs_latest.csv'
 
 rawdata <- data.table::fread(data_url, check.names = TRUE)
+
+# https://coronavirus.data.gov.uk/about-data
+# change weeks to week dates. change -99 to 0-2 (not sure how, average or 1). group by/aggregate by rawdata$utla19_nm 
 
 head(rawdata)
 unique(rawdata$Area.name)
@@ -39,6 +42,7 @@ ggplot(cambridge, aes(Specimen.date , Cumulative.lab.confirmed.cases)) +
 
 
 # from another source - total country/region cases
+theme_set(theme_bw())
 
 url2 <- "https://covid.ourworldindata.org/data/owid-covid-data.csv"
 

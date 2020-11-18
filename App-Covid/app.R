@@ -4,8 +4,6 @@ library(data.table)
 library(tibbletime)
 
 # load data
-data_url <- 'https://c19downloads.azureedge.net/downloads/csv/coronavirus-cases_latest.csv'
-rawdata <- data.table::fread(data_url, check.names = TRUE)
 url2 <- "https://covid.ourworldindata.org/data/owid-covid-data.csv"
 worldRawData <- fread(url2, check.names = T)
 # rolling mean
@@ -19,12 +17,6 @@ ui <- fluidPage(
   
   sidebarLayout(
     sidebarPanel(
-      #local cases
-      helpText("Create visualisation of COVID-19 lab cases in your chosen area"),
-      selectInput("location",
-                  label = "Choose a location to display",
-                  choices = unique(rawdata$Area.name),
-                  selected = "London"),
       #world cases
       helpText("Create visualisation of COVID-19 lab cases in your chosen country"),
       selectInput("country",
@@ -32,10 +24,6 @@ ui <- fluidPage(
                   choices = unique(worldRawData$location),
                   selected = "United Kingdom")),
     mainPanel(
-      #local cases figure
-      h4("Local visualisation COVID-19 cases data with rolling mean",
-         align = "center",
-         plotOutput("covidPlot")),
       #world cases figure
       h4("Country visualisation COVID-19 cases and deaths",
          align = "center",
@@ -46,20 +34,6 @@ ui <- fluidPage(
 
 # Define server logic ----
 server <- function(input, output) {
-  
-  output$covidPlot <- renderPlot({
-    
-    appData <- reactiveVal(dplyr::filter(rawdata, Area.name == input$location))
-    
-    ggplot(appData(), aes(Specimen.date , Daily.lab.confirmed.cases)) +
-      geom_bar(stat = 'identity', fill = '#34273C') + 
-      geom_line(aes(Specimen.date, rolling_mean(Daily.lab.confirmed.cases)), colour = '#E6CF44', size = 1.1) +
-      scale_x_date(date_breaks = "2 weeks", date_labels = "%Y-%m-%d") +
-      theme(axis.text.x = element_text(size = 12, angle = -15, hjust = 0.3),
-            axis.title=element_text(size = 14),
-            axis.text.y = element_text(size = 12))
-    
-  })
   
   output$worldCovid <- renderPlot({
     
